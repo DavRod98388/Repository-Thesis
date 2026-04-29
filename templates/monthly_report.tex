@@ -1,0 +1,145 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[top=10mm,bottom=10mm,left=12mm,right=12mm]{geometry}
+\usepackage{booktabs,xcolor,colortbl,array,tikz,microtype,helvet,mdframed,tabularx}
+\renewcommand{\familydefault}{\sfdefault}
+\setlength{\parindent}{0pt}\setlength{\parskip}{0pt}
+\pagestyle{empty}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\definecolor{headerdk}{HTML}{1a252f}
+\definecolor{okgreen}{HTML}{1a6b3c}
+\definecolor{okbg}{HTML}{eafaf1}
+\definecolor{alertred}{HTML}{c0392b}
+\definecolor{alertbg}{HTML}{fdf0ef}
+\definecolor{accentblue}{HTML}{2980b9}
+\definecolor{mutedgray}{HTML}{7f8c8d}
+\definecolor{lightbg}{HTML}{f7f9fb}
+\definecolor{borderclr}{HTML}{dde3ea}
+\definecolor{tcpblue}{HTML}{2980b9}
+\definecolor{udporange}{HTML}{e67e22}
+\definecolor{icmpred}{HTML}{e74c3c}
+
+\input{DATA_FILE}
+
+\begin{document}
+
+\begin{tikzpicture}
+  \fill[headerdk] (0,0) rectangle (\textwidth,10mm);
+  \node[anchor=west,text=white,font=\large\bfseries] at (3mm,5mm)
+    {SANREN Network Telescope \quad\textbullet\quad IBR Monthly Report};
+  \node[anchor=east,text=white!60,font=\small] at (\textwidth-3mm,5mm)
+    {\monthlabel};
+\end{tikzpicture}
+\vspace{2mm}
+
+\begin{mdframed}[backgroundcolor=\statusbg,linecolor=\statuscolor,linewidth=1pt,
+  innertopmargin=3pt,innerbottommargin=3pt]
+{\large\bfseries\color{\statuscolor} \statustext}
+\hfill{\small\color{mutedgray} \statusnote}
+\end{mdframed}
+\vspace{2mm}
+
+{\footnotesize\bfseries\color{mutedgray} KEY METRICS --- this month vs last month}\\[1mm]
+\begin{tabular}{L{44mm} R{24mm} R{24mm} R{24mm}}
+\toprule
+\rowcolor{headerdk}
+{\color{white}\bfseries\small Metric} & {\color{white}\bfseries\small This Month} &
+{\color{white}\bfseries\small Last Month} & {\color{white}\bfseries\small Change} \\
+\midrule
+\metricsrows
+\bottomrule
+\end{tabular}
+\vspace{2mm}
+
+{\footnotesize\bfseries\color{mutedgray} PROTOCOL AVERAGES --- avg / min / max}\\[1mm]
+\begin{tabular}{L{20mm} R{18mm} R{18mm} R{18mm}}
+\toprule
+\rowcolor{headerdk}
+{\color{white}\bfseries\small Protocol} & {\color{white}\bfseries\small Avg} &
+{\color{white}\bfseries\small Min} & {\color{white}\bfseries\small Max} \\
+\midrule
+\protorows
+\bottomrule
+\end{tabular}
+\vspace{2mm}
+
+{\footnotesize\bfseries\color{mutedgray} DAILY PACKET VOLUME --- \monthlabel
+\enspace{\tiny\color{alertred}red = anomaly day}}\\[2mm]
+\barchart
+\vspace{3mm}
+
+{\footnotesize\bfseries\color{mutedgray} WEEK-BY-WEEK BREAKDOWN}\\[1mm]
+\begin{tabular}{L{20mm} R{24mm} R{22mm} R{24mm} R{30mm}}
+\toprule
+\rowcolor{headerdk}
+{\color{white}\bfseries\small Week} & {\color{white}\bfseries\small Total Packets} &
+{\color{white}\bfseries\small Daily Avg} & {\color{white}\bfseries\small Unique IPs} &
+{\color{white}\bfseries\small Anomalies} \\
+\midrule
+\weekrows
+\bottomrule
+\end{tabular}
+\vspace{3mm}
+
+\begin{minipage}[t]{0.475\textwidth}
+{\footnotesize\bfseries\color{mutedgray} TOP 10 TCP PORTS --- THIS MONTH}\\[1mm]
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} clL{16mm}rr @{}}
+\toprule
+\rowcolor{headerdk}
+{\color{white}\bfseries\small \#} & {\color{white}\bfseries\small Port} &
+{\color{white}\bfseries\small Service} & {\color{white}\bfseries\small Packets} &
+{\color{white}\bfseries\small \%} \\
+\midrule
+\tcprows
+\bottomrule
+\end{tabular*}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.475\textwidth}
+{\footnotesize\bfseries\color{mutedgray} TOP 10 UDP PORTS --- THIS MONTH}\\[1mm]
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} clL{16mm}rr @{}}
+\toprule
+\rowcolor{headerdk}
+{\color{white}\bfseries\small \#} & {\color{white}\bfseries\small Port} &
+{\color{white}\bfseries\small Service} & {\color{white}\bfseries\small Packets} &
+{\color{white}\bfseries\small \%} \\
+\midrule
+\udprows
+\bottomrule
+\end{tabular*}
+\end{minipage}
+\vspace{3mm}
+
+\begin{minipage}[t]{0.475\textwidth}
+{\footnotesize\bfseries\color{mutedgray} TOP 10 SOURCE COUNTRIES}\\[1mm]
+\begin{tabular}{C{5mm} C{10mm} R{19mm} R{11mm} R{15mm}}
+\toprule
+\rowcolor{headerdk}
+{\color{white}\bfseries\small \#} & {\color{white}\bfseries\small CC} &
+{\color{white}\bfseries\small Packets} & {\color{white}\bfseries\small \%} &
+{\color{white}\bfseries\small Unique~IPs} \\
+\midrule
+\georows
+\bottomrule
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.475\textwidth}
+{\footnotesize\bfseries\color{mutedgray} TOP 5 SOURCE ASNs}\\[1mm]
+\begin{tabular}{C{5mm} C{14mm} L{22mm} R{15mm}}
+\toprule
+\rowcolor{headerdk}
+{\color{white}\bfseries\small \#} & {\color{white}\bfseries\small ASN} &
+{\color{white}\bfseries\small Organisation} & {\color{white}\bfseries\small Unique~IPs} \\
+\midrule
+\asnrows
+\bottomrule
+\end{tabular}
+\end{minipage}
+\vspace{2mm}
+
+{\footnotesize\bfseries\color{mutedgray} DATA QUALITY}\\[1mm]
+{\small\color{\qualitycolor} \qualitytext}
+
+\anomalydetail
+
+\end{document}
